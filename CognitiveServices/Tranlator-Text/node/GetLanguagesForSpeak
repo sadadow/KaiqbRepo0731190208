@@ -1,0 +1,113 @@
+## Get supported languages for speech synthesis
+
+The following code gets a list of language codes representing languages supported for speech synthesis, using the GetLanguagesForSpeak method.
+
+1. Create a new Node.JS project in your favorite IDE.
+2. Add the code provided below.
+3. Replace the `key` value with an access key valid for your subscription.
+4. Run the program.
+
+```nodejs
+'use strict';
+
+let https = require ('https');
+
+// **********************************************
+// *** Update or verify the following values. ***
+// **********************************************
+
+// Replace the subscriptionKey string value with your valid subscription key.
+let subscriptionKey = 'ENTER KEY HERE';
+
+let host = 'api.microsofttranslator.com';
+let path = '/V2/Http.svc/GetLanguagesForSpeak';
+
+let params = '';
+
+let response_handler = function (response) {
+    let body = '';
+    response.on ('data', function (d) {
+        body += d;
+    });
+    response.on ('end', function () {
+		console.log (body);
+    });
+    response.on ('error', function (e) {
+        console.log ('Error: ' + e.message);
+    });
+};
+
+let GetLanguagesForSpeak = function () {
+	let request_params = {
+		method : 'GET',
+		hostname : host,
+		path : path + params,
+		headers : {
+			'Ocp-Apim-Subscription-Key' : subscriptionKey,
+		}
+	};
+
+	let req = https.request (request_params, response_handler);
+	req.end ();
+}
+
+GetLanguagesForSpeak ();
+```
+
+**Get supported languages for speech synthesis response**
+
+A successful response is returned in XML, as shown in the following example: 
+
+```xml
+<ArrayOfstring xmlns="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <string>ar</string>
+  <string>ar-eg</string>
+  <string>ca</string>
+  <string>ca-es</string>
+  <string>da</string>
+  <string>da-dk</string>
+  <string>de</string>
+  <string>de-de</string>
+  <string>en</string>
+  <string>en-au</string>
+  <string>en-ca</string>
+  <string>en-gb</string>
+  <string>en-in</string>
+  <string>en-us</string>
+  <string>es</string>
+  <string>es-es</string>
+  <string>es-mx</string>
+  <string>fi</string>
+  <string>fi-fi</string>
+  <string>fr</string>
+  <string>fr-ca</string>
+  <string>fr-fr</string>
+  <string>hi</string>
+  <string>hi-in</string>
+  <string>it</string>
+  <string>it-it</string>
+  <string>ja</string>
+  <string>ja-jp</string>
+  <string>ko</string>
+  <string>ko-kr</string>
+  <string>nb-no</string>
+  <string>nl</string>
+  <string>nl-nl</string>
+  <string>no</string>
+  <string>pl</string>
+  <string>pl-pl</string>
+  <string>pt</string>
+  <string>pt-br</string>
+  <string>pt-pt</string>
+  <string>ru</string>
+  <string>ru-ru</string>
+  <string>sv</string>
+  <string>sv-se</string>
+  <string>yue</string>
+  <string>zh-chs</string>
+  <string>zh-cht</string>
+  <string>zh-cn</string>
+  <string>zh-hk</string>
+  <string>zh-tw</string>
+</ArrayOfstring>
+```
